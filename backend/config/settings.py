@@ -34,6 +34,7 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
+CSRF_TRUSTED_ORIGINS = ['https://fayaz-ahamed-portfolio.onrender.com']
 
 # Application definition
 
