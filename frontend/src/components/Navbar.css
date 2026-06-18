@@ -1,0 +1,150 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.4s ease;
+  padding: 1.5rem 0;
+  background: transparent;
+}
+
+.navbar.scrolled {
+  padding: 1rem 0;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem; /* Base mobile padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: var(--accent-color);
+}
+
+.menu-icon {
+  display: flex; /* Base mobile */
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-icon .bar {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-color, #fff);
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  border-radius: 3px;
+}
+
+/* Hamburger animations */
+.menu-icon.active .bar:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+.menu-icon.active .bar:nth-child(2) {
+  opacity: 0;
+}
+.menu-icon.active .bar:nth-child(3) {
+  transform: rotate(45deg) translate(-6px, -7px);
+}
+
+/* Mobile Menu Base */
+.nav-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 65%; 
+  height: 100vh;
+  background: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(15px);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: right 0.4s ease;
+  z-index: 1000;
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.nav-menu.active {
+  right: 0;
+}
+
+.nav-item {
+  margin: 1.5rem 0;
+}
+
+.nav-link {
+  font-weight: 500;
+  font-size: 1.3rem; /* Mobile font size */
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-color);
+  bottom: -4px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Tablet & Desktop (md and up) */
+@media (min-width: 768px) {
+  .navbar-container {
+    padding: 0 2rem;
+  }
+
+  .menu-icon {
+    display: none;
+  }
+
+  .nav-menu {
+    position: static;
+    right: auto;
+    width: auto;
+    height: auto;
+    background: transparent;
+    backdrop-filter: none;
+    border-left: none;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: none;
+    gap: 2rem;
+  }
+
+  .nav-menu.active {
+    right: auto; /* reset */
+  }
+
+  .nav-item {
+    margin: 0;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+  }
+}
