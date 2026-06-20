@@ -147,6 +147,9 @@ STORAGES = {
     },
 }
 
+# Added for compatibility with django-cloudinary-storage on Django 5.1+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 CORS_ALLOW_ALL_ORIGINS = True # For development, we allow all. Can restrict to localhost:5173 later.
 
 # Email Configuration
