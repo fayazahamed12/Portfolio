@@ -143,12 +143,15 @@ STORAGES = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
 # Added for compatibility with django-cloudinary-storage on Django 5.1+
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Prevent build crashes when CSS files reference missing fonts/images
+WHITENOISE_MANIFEST_STRICT = False
 
 CORS_ALLOW_ALL_ORIGINS = True # For development, we allow all. Can restrict to localhost:5173 later.
 
