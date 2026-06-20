@@ -1,22 +1,32 @@
 from django.core.mail import send_mail
 from django.conf import settings
-from rest_framework import viewsets, mixins
-from .models import Project, Resume, ContactMessage
-from .serializers import ProjectSerializer, ResumeSerializer, ContactMessageSerializer
+from rest_framework import viewsets, mixins, permissions
+from .models import Project, Resume, ContactMessage, PortfolioContent
+from .serializers import ProjectSerializer, ResumeSerializer, ContactMessageSerializer, PortfolioContentSerializer
 
-class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
+class ProjectViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows visitors to view projects.
+    API endpoint that allows visitors to view projects, and authenticated users to modify them.
     """
     queryset = Project.objects.all().order_by('-created_at')
     serializer_class = ProjectSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class ResumeViewSet(viewsets.ReadOnlyModelViewSet):
+class ResumeViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows visitors to view resumes.
+    API endpoint that allows visitors to view resumes, and authenticated users to modify them.
     """
     queryset = Resume.objects.all().order_by('-created_at')
     serializer_class = ResumeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class PortfolioContentViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows visitors to view portfolio content, and authenticated users to modify it.
+    """
+    queryset = PortfolioContent.objects.all().order_by('-created_at')
+    serializer_class = PortfolioContentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ContactMessageViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """

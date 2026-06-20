@@ -38,3 +38,20 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"Message from {self.name} - {self.subject}"
+
+class PortfolioContent(models.Model):
+    hero_title = models.CharField(max_length=200, default="Hi, I'm a Developer")
+    hero_subtitle = models.CharField(max_length=300, blank=True, null=True)
+    about_text = models.TextField(blank=True, null=True)
+    profile_image = models.ImageField(upload_to='profile/', blank=True, null=True)
+    github_link = models.URLField(blank=True, null=True)
+    linkedin_link = models.URLField(blank=True, null=True)
+    twitter_link = models.URLField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Portfolio Content"
+
+    class Meta:
+        verbose_name_plural = "Portfolio Content"

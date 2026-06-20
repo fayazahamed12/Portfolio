@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Resume, ContactMessage
+from .models import Project, Resume, ContactMessage, PortfolioContent
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
@@ -20,3 +20,7 @@ class ContactMessageAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+@admin.register(PortfolioContent)
+class PortfolioContentAdmin(admin.ModelAdmin):
+    list_display = ('hero_title', 'created_at', 'updated_at')
