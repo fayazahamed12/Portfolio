@@ -39,19 +39,31 @@ class ContactMessageViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         # Save the message to the database
         instance = serializer.save()
         
-        # Send an email notification
-        subject = f"New Portfolio Contact: {instance.subject}"
-        message = f"Name: {instance.name}\nEmail: {instance.email}\n\nMessage:\n{instance.message}"
+        # Send an email notification using Resend API (bypasses Render SMTP blocks)
+        import os
+        import json
+        import urllib.request
         
-        try:
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL if hasattr(settings, 'DEFAULT_FROM_EMAIL') else 'noreply@example.com',
-                [settings.CONTACT_EMAIL] if hasattr(settings, 'CONTACT_EMAIL') else ['your-email@example.com'],
-                fail_silently=True,
-            )
-        except Exception as e:
-            # You might want to log the error here
-            print(f"Failed to send email: {e}")
+        resend_api_key = os.environ.get('RESEND_API_KEY')
+        
+        if resend_api_key:
+            try:
+                subject = f"New Portfolio Contact: {instance.subject}"
+                url = "https://api.resend.com/emails"
+                data = json.dumps({
+                    "from": "onboarding@resend.dev",
+                    "to": "fayazahamed.dev@gmail.com", # Your verified Resend email
+                    "subject": subject,
+                    "html": f"<p><strong>Name:</strong> {instance.name}</p><p><strong>Email:</strong> {instance.email}</p><p><strong>Message:</strong><br>{instance.message}</p>"
+                }).encode('utf-8')
+                
+                req = urllib.request.Request(url, data=data, headers={
+                    "Authorization": f"Bearer {resend_api_key}",
+                    "Content-Type": "application/json"
+                })
+                urllib.request.urlopen(req, timeout=5)
+            except Exception as e:
+                print(f"Failed to send email via Resend API: {e}")
+        else:
+            print("RESEND_API_KEY not set. Message saved to DB only.")
 
